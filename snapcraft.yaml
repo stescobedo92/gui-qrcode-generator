@@ -10,7 +10,7 @@ confinement: strict
 
 apps:
   qrcode-generator:
-    command: qrcode-generator
+    command: gui-qrcode-generator
     desktop: share/applications/qrcode-generator.desktop
     plugs:
       - network                # Grants network access

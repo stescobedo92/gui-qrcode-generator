@@ -3,9 +3,9 @@ package main
 import (
 	"bytes"
 	_ "embed"
+	"github.com/stescobedo92/gui-qrcode-generator/qrutils"
 	"image"
 	"image/jpeg"
-	"qrcode-generator/qrutils"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"

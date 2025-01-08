@@ -1,4 +1,4 @@
-module qrcode-generator
+module github.com/stescobedo92/gui-qrcode-generator
 
 go 1.22.0
 
