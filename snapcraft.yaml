@@ -1,0 +1,37 @@
+name: qrcode-generator
+base: core20
+version: '1.0.0'
+summary: Allow generating QR codes from user-inputted text
+description: |
+  A desktop application developed in Golang using the Fyne framework that allows generating QR codes from user-inputted text. Additionally, generated QR codes can be saved in PNG or JPG formats.
+
+grade: stable
+confinement: strict
+
+apps:
+  qrcode-generator:
+    command: qrcode-generator
+    desktop: share/applications/qrcode-generator.desktop
+    plugs:
+      - network                # Grants network access
+      - home                   # Grants access to user's home directory
+      - desktop                # Grants access to desktop
+      - x11                    # For GUI applications
+      - wayland                # For GUI applications on Wayland
+
+parts:
+  qrcode-generator:
+    source: https://github.com/stescobedo92/gui-qrcode-generator  # Keep the URL
+    source-type: git  # Add this line
+    plugin: go
+    stage-packages:
+      - libgtk-3-0
+      - libgdk-pixbuf2.0-0
+      - libglib2.0-0
+      # Add other system dependencies if needed
+    build-packages:
+      - gcc
+      - pkg-config
+      - libgtk-3-dev
+      - libgdk-pixbuf2.0-dev
+      - libglib2.0-dev
