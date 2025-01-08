@@ -21,6 +21,25 @@ parts:
     source: https://github.com/stescobedo92/gui-qrcode-generator  # Keep the URL
     source-type: git  # Add this line
     plugin: go
+    stage-packages:
+      - libgl1             # Biblioteca OpenGL en tiempo de ejecución
+      - libx11-6           # Biblioteca X11 en tiempo de ejecución
+      - libxrandr2         # Biblioteca Xrandr en tiempo de ejecución
+      - libxxf86vm1        # Biblioteca Xxf86vm en tiempo de ejecución
+      - libxcursor1        # Biblioteca Xcursor en tiempo de ejecución
+      - libxinerama1       # Biblioteca Xinerama en tiempo de ejecución
+      - libxi6             # Biblioteca XInput en tiempo de ejecución
+      - libxext6           # Biblioteca XExt en tiempo de ejecución
+      - libxft2            # Biblioteca Xft en tiempo de ejecución
     build-packages:
       - gcc
       - pkg-config
+      - libx11-dev           # Biblioteca X11 de desarrollo
+      - libxrandr-dev        # Biblioteca Xrandr de desarrollo
+      - libxxf86vm-dev       # Biblioteca Xxf86vm de desarrollo
+      - libgl1-mesa-dev      # Biblioteca OpenGL de desarrollo
+      - libxcursor-dev       # Biblioteca Xcursor de desarrollo
+      - libxinerama-dev      # Biblioteca Xinerama de desarrollo
+      - libxi-dev            # Biblioteca XInput de desarrollo
+      - libxext-dev          # Biblioteca XExt de desarrollo
+      - libxft-dev           # Biblioteca Xft de desarrollo
