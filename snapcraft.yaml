@@ -70,9 +70,9 @@ parts:
       # Copy existing .desktop file
       cp share/applications/qrcode-generator.desktop $SNAPCRAFT_PART_INSTALL/usr/share/applications/
 
-      # Add the icon
-    desktop-resources:
-      plugin: dump
-      source: snap/gui/
-      organize:
+  # Add the icon
+  desktop-resources:
+    plugin: dump
+    source: snap/gui/
+    organize:
       'qr-code-snap-icon.png': meta/gui/qr-code-snap-icon.png
