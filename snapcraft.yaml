@@ -1,9 +1,9 @@
 name: qrcode-generator
 base: core22
 version: '1.0.0'
-summary: Allow generating QR codes from user-inputted text
+summary: Generador de códigos QR a partir de texto ingresado por el usuario
 description: |
-  A desktop application developed in Golang using the Fyne framework that allows generating QR codes from user-inputted text. Additionally, generated QR codes can be saved in PNG or JPG formats.
+  Una aplicación de escritorio desarrollada en Golang usando el framework Fyne que permite generar códigos QR a partir de texto ingresado por el usuario. Además, los códigos QR generados pueden guardarse en formatos PNG o JPG.
 grade: stable
 confinement: strict
 
@@ -18,17 +18,20 @@ apps:
       - x11
       - opengl
       - wayland
+    environment:
+      LIBGL_DRIVERS_PATH: $SNAP/usr/lib/x86_64-linux-gnu/dri
 
 parts:
   qrcode-generator:
     plugin: go
     source: https://github.com/stescobedo92/gui-qrcode-generator
     source-type: git
-    go-buildtags: [fyne]
     build-snaps:
       - go
     stage-packages:
       - libgl1
+      - libgl1-mesa-glx        # Agregado
+      - libgl1-mesa-dri        # Agregado
       - libx11-6
       - libxrandr2
       - libxxf86vm1
@@ -54,21 +57,25 @@ parts:
       export GOPATH=$SNAPCRAFT_PART_BUILD/go
       export PATH=$GOPATH/bin:$PATH
 
-      # Get dependencies
+      # Obtener dependencias
       go get -v ./...
 
-      # Build the application
+      # Compilar la aplicación
       go build -v -o gui-qrcode-generator
 
-      # Create necessary directories
+      # Crear directorios necesarios
       mkdir -p $SNAPCRAFT_PART_INSTALL/bin/
       mkdir -p $SNAPCRAFT_PART_INSTALL/usr/share/applications/
+      mkdir -p $SNAPCRAFT_PART_INSTALL/usr/lib/x86_64-linux-gnu/dri/
 
-      # Copy binary
+      # Copiar el binario
       cp gui-qrcode-generator $SNAPCRAFT_PART_INSTALL/bin/
 
-      # Copy existing .desktop file
+      # Copiar el archivo .desktop existente
       cp share/applications/qrcode-generator.desktop $SNAPCRAFT_PART_INSTALL/usr/share/applications/
+
+      # Copiar los controladores DRI
+      cp /usr/lib/x86_64-linux-gnu/dri/* $SNAPCRAFT_PART_INSTALL/usr/lib/x86_64-linux-gnu/dri/
 
   desktop-resources:
     plugin: dump
@@ -79,18 +86,7 @@ parts:
   cleanup:
     after: [qrcode-generator]
     plugin: nil
+
     override-prime: |
       set -eux
-      for lib in \
-        usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0 \
-        usr/lib/x86_64-linux-gnu/libXcursor.so.1.0.2 \
-        usr/lib/x86_64-linux-gnu/libXft.so.2.3.4 \
-        usr/lib/x86_64-linux-gnu/libXi.so.6.1.0 \
-        usr/lib/x86_64-linux-gnu/libXinerama.so.1.0.0 \
-        usr/lib/x86_64-linux-gnu/libXrandr.so.2.2.0 \
-        usr/lib/x86_64-linux-gnu/libicuio.so.70.1 \
-        usr/lib/x86_64-linux-gnu/libicutest.so.70.1; do
-          if [ -f "$SNAPCRAFT_PRIME/$lib" ]; then
-            rm "$SNAPCRAFT_PRIME/$lib"
-          fi
-      done
+      # No es necesario realizar limpieza adicional ya que hemos copiado los controladores DRI necesarios
