@@ -1,5 +1,5 @@
 name: qrcode-generator
-base: core20
+base: core22
 version: '1.0.0'
 summary: Allow generating QR codes from user-inputted text
 description: |
@@ -43,3 +43,6 @@ parts:
       - libxi-dev            # Biblioteca XInput de desarrollo
       - libxext-dev          # Biblioteca XExt de desarrollo
       - libxft-dev           # Biblioteca Xft de desarrollo
+    override-build: |
+      apt-get update
+      snapcraftctl build
