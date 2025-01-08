@@ -17,11 +17,12 @@ A desktop application developed in **Golang** using the **Fyne** framework that 
 1. Clone the repository:
    ```bash
    git clone git@github.com:stescobedo92/gui-qrcode-generator.git
-   cd qr-code-generator
+   cd gui-qrcode-generator
    ```
 2. Install dependencies:
    ```bash
    go mod tidy
+   go mod build
    ```
 3. Run the application:
    ```bash
