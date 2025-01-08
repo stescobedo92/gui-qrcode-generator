@@ -15,23 +15,12 @@ apps:
     plugs:
       - network                # Grants network access
       - home                   # Grants access to user's home directory
-      - desktop                # Grants access to desktop
-      - x11                    # For GUI applications
-      - wayland                # For GUI applications on Wayland
 
 parts:
   qrcode-generator:
     source: https://github.com/stescobedo92/gui-qrcode-generator  # Keep the URL
     source-type: git  # Add this line
     plugin: go
-    stage-packages:
-      - libgtk-3-0
-      - libgdk-pixbuf2.0-0
-      - libglib2.0-0
-      # Add other system dependencies if needed
     build-packages:
       - gcc
       - pkg-config
-      - libgtk-3-dev
-      - libgdk-pixbuf2.0-dev
-      - libglib2.0-dev
