@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	_ "embed"
 	"image"
 	"image/jpeg"
 	"qrcode-generator/qrutils"
@@ -15,6 +16,9 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
+//go:embed resources/qr-code-app-icon.png
+var qrCodeIconData []byte
+
 func main() {
 	a := app.New()
 	w := a.NewWindow("QR Code Generator")
@@ -22,6 +26,10 @@ func main() {
 
 	// Centrar la ventana en la pantalla
 	w.CenterOnScreen()
+
+	// Cargar y establecer el ícono de la aplicación
+	qrCodeIconResource := fyne.NewStaticResource("qr-code-app-icon.png", qrCodeIconData)
+	w.SetIcon(qrCodeIconResource)
 
 	// UI Components
 	input := widget.NewEntry()
