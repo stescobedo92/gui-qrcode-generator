@@ -53,26 +53,44 @@ parts:
       export CGO_ENABLED=1
       export GOPATH=$SNAPCRAFT_PART_BUILD/go
       export PATH=$GOPATH/bin:$PATH
-      
+
       # Get dependencies
       go get -v ./...
-      
+
       # Build the application
       go build -v -o gui-qrcode-generator
-      
+
       # Create necessary directories
       mkdir -p $SNAPCRAFT_PART_INSTALL/bin/
       mkdir -p $SNAPCRAFT_PART_INSTALL/usr/share/applications/
-      
+
       # Copy binary
       cp gui-qrcode-generator $SNAPCRAFT_PART_INSTALL/bin/
-      
+
       # Copy existing .desktop file
       cp share/applications/qrcode-generator.desktop $SNAPCRAFT_PART_INSTALL/usr/share/applications/
 
-  # Add the icon
   desktop-resources:
     plugin: dump
     source: snap/gui/
     organize:
-      'qr-code-snap-icon.png': meta/gui/qr-code-snap-icon.png
+      'qr-code-snap-icon.png': usr/share/icons/qr-code-snap-icon.png
+
+  cleanup:
+    after: [qrcode-generator]
+    plugin: nil
+    override-prime: |
+      set -eux
+      for lib in \
+        usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0 \
+        usr/lib/x86_64-linux-gnu/libXcursor.so.1.0.2 \
+        usr/lib/x86_64-linux-gnu/libXft.so.2.3.4 \
+        usr/lib/x86_64-linux-gnu/libXi.so.6.1.0 \
+        usr/lib/x86_64-linux-gnu/libXinerama.so.1.0.0 \
+        usr/lib/x86_64-linux-gnu/libXrandr.so.2.2.0 \
+        usr/lib/x86_64-linux-gnu/libicuio.so.70.1 \
+        usr/lib/x86_64-linux-gnu/libicutest.so.70.1; do
+          if [ -f "$SNAPCRAFT_PRIME/$lib" ]; then
+            rm "$SNAPCRAFT_PRIME/$lib"
+          fi
+      done

@@ -1,6 +1,8 @@
 [Desktop Entry]
 Name=QR Code Generator
-Exec=qrcode-generator
-Icon=qr-code-snap-icon
+Comment=Generate QR Codes easily
+Exec=gui-qrcode-generator
+Icon=${SNAP}/meta/gui/qr-code-snap-icon.png
+Terminal=false
 Type=Application
-Categories=Utility;Development;
+Categories=Utility;
