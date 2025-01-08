@@ -10,7 +10,7 @@ confinement: strict
 apps:
   qrcode-generator:
     command: bin/gui-qrcode-generator
-    desktop: share/applications/qrcode-generator.desktop
+    desktop: usr/share/applications/qrcode-generator.desktop
     plugs:
       - network
       - home
@@ -24,6 +24,7 @@ parts:
     plugin: go
     source: https://github.com/stescobedo92/gui-qrcode-generator
     source-type: git
+    go-buildtags: [fyne]
     build-snaps:
       - go
     stage-packages:
@@ -50,7 +51,6 @@ parts:
       - libxft-dev
     override-build: |
       export CGO_ENABLED=1
-      # Ensure GOPATH is set correctly
       export GOPATH=$SNAPCRAFT_PART_BUILD/go
       export PATH=$GOPATH/bin:$PATH
       
@@ -60,6 +60,19 @@ parts:
       # Build the application
       go build -v -o gui-qrcode-generator
       
-      # Create necessary directories and copy files
+      # Create necessary directories
       mkdir -p $SNAPCRAFT_PART_INSTALL/bin/
+      mkdir -p $SNAPCRAFT_PART_INSTALL/usr/share/applications/
+      
+      # Copy binary
       cp gui-qrcode-generator $SNAPCRAFT_PART_INSTALL/bin/
+      
+      # Copy existing .desktop file
+      cp share/applications/qrcode-generator.desktop $SNAPCRAFT_PART_INSTALL/usr/share/applications/
+
+      # Add the icon
+    desktop-resources:
+      plugin: dump
+      source: snap/gui/
+      organize:
+      'qr-code-snap-icon.png': meta/gui/qr-code-snap-icon.png
